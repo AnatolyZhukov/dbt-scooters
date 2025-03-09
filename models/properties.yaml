@@ -7,6 +7,14 @@ sources:
     tables:
       - name: "trips"
         description: "Scooter trips"
+        loaded_at_field: "finished_at"
+        freshness:
+              warn_after:
+                count: 1
+                period: "day"
+              error_after:
+                count: 3650
+                period: "day"
 
       - name: "users"
         description: "Users of scooter service"
@@ -61,15 +69,6 @@ models:
       materialized: "incremental"
       strategy: "merge"
       unique_key: [ "user_id", "timestamp", "type_id" ]
-  
-  - name: "revenue_daily"
-    description: "Summary daily revenue"
-    config:
-      materialized: "incremental"
-      strategy: "merge"
-      unique_key: [ "date" ]
-      on_schema_change: "append_new_columns"
-      full_refresh: false
   
   - name: "trips_concurrency"
     description: "Number of simultaneous rides in time"
