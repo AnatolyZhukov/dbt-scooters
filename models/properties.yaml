@@ -15,6 +15,15 @@ sources:
               error_after:
                 count: 3650
                 period: "day"
+        columns:
+          - name: "user_id"
+            description: "User identifier"
+            data_tests:
+              - not_null
+              - relationships:
+                  name: "every_trip_has_user"
+                  to: "source('scooters_raw', 'users')"
+                  field: "id"
 
       - name: "users"
         description: "Users of scooter service"
@@ -89,8 +98,11 @@ models:
   
   - name: "companies"
     description: "Scooter satistics by company"
-    data_tests:
-      - unique
+    columns:
+      - name: "company"
+        description: "check check"
+        data_tests:
+          - unique
 
   - name: "companies_trips"
     description: "Trip satistics by company"
